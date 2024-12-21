@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class MainController extends Controller
 {
-    public function index() : string
+    public function index() : View
     {
-        return 'Hello Controller!';
+        return view('main');
     }
 }
