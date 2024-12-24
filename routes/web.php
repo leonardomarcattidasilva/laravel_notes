@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\MainController;
+// use App\Http\Controllers\MainController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return 'ok';
+Route::controller(AuthController::class)->group(function(){
+    Route::get('/', 'login');
+    Route::get('/logout', 'logout');
+    Route::post('/loginSubmit', 'loginSubmit');
 });
-
-Route::get('main', [MainController::class, 'index']);
