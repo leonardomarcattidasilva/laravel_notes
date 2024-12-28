@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Models\Note;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -19,20 +21,14 @@ class AuthController extends Controller
         return 'Logout';
     }
 
-    public function loginSubmit(LoginRequest $request) : void
+    public function loginSubmit(LoginRequest $request) : View
     {
         $request->validated();
-        $username = $request->input('text_username');
-        $password = $request->input('text_password');
+        return \view('Home');
+        // $username = $request->input('text_username');
+        // $password = $request->input('text_password');
 
         // echo 'Username: ' . $username . "<br>" . 'Password: ' . $password;
-        try {
-            DB::connection()->getPdo();
-            echo 'OK';
-        } catch (\PDOException $th) {
-            echo $th->getMessage();
-        }
-
-        echo 'FIM';
+        // return User::all()->toArray();
     }
 }
