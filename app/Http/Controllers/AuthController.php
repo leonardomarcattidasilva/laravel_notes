@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginRequest;
-use App\Models\Note;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class AuthController extends Controller
@@ -16,19 +15,34 @@ class AuthController extends Controller
         return view('login');
     }
 
-    public function logout() : string
+    public function logout()
     {
-        return 'Logout';
+        \session()->forget('user');
+        return \redirect()->route('login');
     }
 
-    public function loginSubmit(LoginRequest $request) : View
+    public function loginSubmit(LoginRequest $request)
     {
         $request->validated();
-        return \view('Home');
-        // $username = $request->input('text_username');
-        // $password = $request->input('text_password');
 
-        // echo 'Username: ' . $username . "<br>" . 'Password: ' . $password;
-        // return User::all()->toArray();
+        $username = $request->input('text_username');
+        $password = $request->input('text_password');
+
+        $user = User::where([['email', '=', $username], ['deleted_at', '=', null]] )->first();
+
+        if ($user) {
+            if (\password_verify($password, $user->password)) {
+                $user->last_login = \date('Y-m-d H:i:s');
+                $user->save();
+                session(['user' => ['id' => $user->id, 'username' => $user->userName]]);
+                return redirect()->route('home');
+            }
+        }
+
+    //   if (Auth::attempt(['email' => $request->text_username, 'password' => $request->text_password])) {
+    //         $user = Auth::user();
+    //          return view('home', ['user' => $user]);
+    //   }
+        return \redirect()->back()->withInput()->with('loginError', 'Username ou password incorretos');
     }
 }

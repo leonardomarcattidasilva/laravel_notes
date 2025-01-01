@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
-// use Illuminate\View\View;
+use Illuminate\View\View;
 
 class MainController extends Controller
 {
+    public function index() : View
+    {
+        return \view('home');
+    }
+
+    public function newNote()
+    {
+        return 'Creating new note';
+    }
+
 
 }

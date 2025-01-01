@@ -17,7 +17,7 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label for="text_username" class="form-label">Username</label>
-                                    <input type="text" class="form-control bg-dark text-info" name="text_username" value="{{old('text_username')}}" required />
+                                    <input type="email" class="form-control bg-dark text-info" name="text_username" value="{{old('text_username')}}" required />
                                     @error('text_username')
                                         <small class="text-danger">{{$message}}</small>
                                     @enderror
@@ -33,6 +33,11 @@
                                     <button type="submit" class="btn btn-secondary w-100">LOGIN</button>
                                 </div>
                             </form>
+                            @if(session('loginError'))
+                                <div class="alert alert-danger text center">
+                                    {{session('loginError')}}
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="text-center text-secondary mt-3">
