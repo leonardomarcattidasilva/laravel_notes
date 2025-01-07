@@ -22,18 +22,18 @@ class NewNoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'text_title' => 'required|min:10',
-            'text_note' =>  'required|min:40'
+            'title' => 'required|min:10',
+            'text' =>  'required|min:40'
         ];
     }
 
     public function messages() : array
     {
         return [
-            'text_title.required' => 'O campo é obrigatório',
-            'text_note.required' => 'O campo é obrigatório',
-            'text_title.min' => 'O campo deve ter pelo menos :min caracteres',
-            'text_note.min' => 'O campo deve ter no mámixo :min caracteres',
+            'title.required' => 'O campo é obrigatório',
+            'text.required' => 'O campo é obrigatório',
+            'title.min' => 'O campo deve ter pelo menos :min caracteres',
+            'text.min' => 'O campo deve ter no mínimo :min caracteres',
         ];
     }
 }

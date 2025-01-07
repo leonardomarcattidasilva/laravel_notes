@@ -4,19 +4,17 @@
 
     use Illuminate\Contracts\Encryption\DecryptException;
     use Illuminate\Support\Facades\Crypt;
-    use Illuminate\Support\Facades\Redirect;
 
     final class Operations
     {
-        public static function decriptID($id) : string|Redirect
+        public static function decriptID($id) : int|null
         {
             try {
-                $decriptedID = Crypt::decrypt($id);
+                $decriptedID = \intval(Crypt::decrypt($id));
             } catch (DecryptException) {
-                return \redirect()->route('home');
+                return null;
             }
 
             return $decriptedID;
         }
     }
-

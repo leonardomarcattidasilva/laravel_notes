@@ -10,39 +10,35 @@ use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function login() : View
-    {
-        return view('login');
-    }
+	public function login(): View
+	{
+		return view('login');
+	}
 
-    public function logout()
-    {
-        \session()->forget('user');
-        return \redirect()->route('login');
-    }
+	public function logout()
+	{
+		\session()->forget('user');
+		return \redirect()->route('login');
+	}
 
-    public function loginSubmit(LoginRequest $request)
-    {
-        $request->validated();
+	public function loginSubmit(LoginRequest $request)
+	{
+		$request->validated();
 
-        $username = $request->input('text_username');
-        $password = $request->input('text_password');
+		$username = $request->input('text_username');
+		$password = $request->input('text_password');
 
-        $user = User::where([['email', '=', $username], ['deleted_at', '=', null]] )->first();
+		$user = User::where([['email', '=', $username], ['deleted_at', '=', null]])->first();
 
-        if ($user) {
-            if (\password_verify($password, $user->password)) {
-                $user->last_login = \date('Y-m-d H:i:s');
-                $user->save();
-                session(['user' => ['id' => $user->id, 'username' => $user->userName]]);
-                return redirect()->route('home');
-            }
-        }
+		if ($user) {
+			if (\password_verify($password, $user->password)) {
+				$user->last_login = \date('Y-m-d H:i:s');
+				$user->save();
+				session(['user' => ['id' => $user->id, 'username' => $user->userName]]);
+				return redirect()->route('home');
+			}
+		}
 
-    //   if (Auth::attempt(['email' => $request->text_username, 'password' => $request->text_password])) {
-    //         $user = Auth::user();
-    //          return view('home', ['user' => $user]);
-    //   }
-        return \redirect()->back()->withInput()->with('loginError', 'Username ou password incorretos');
-    }
+		return \redirect()->back()->withInput()->with('loginError', 'Username ou password incorretos');
+	}
 }
